@@ -33,8 +33,10 @@ class ScriptCompactor extends Transformer with PolymerTransformer {
   ScriptCompactor(this.options);
 
   /** Only run on entry point .html files. */
-  Future<bool> isPrimary(Asset input) =>
-      new Future.value(options.isHtmlEntryPoint(input.id));
+  Future<bool> isPrimary(idOrAsset) {
+    var id = idOrAsset is AssetId ? idOrAsset : idOrAsset.id;
+    return new Future.value(options.isHtmlEntryPoint(id));
+  }
 
   Future apply(Transform transform) {
     var id = transform.primaryInput.id;
